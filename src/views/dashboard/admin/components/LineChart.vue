@@ -79,9 +79,13 @@ export default {
       }
     },
     setOptions({ expectedData, actualData } = {}) {
+      const array = []
+      for (let index = 0; index < 60; index++) {
+        array.push(index)
+      }
       this.chart.setOption({
         xAxis: {
-          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+          data: array,
           boundaryGap: false,
           axisTick: {
             show: false
@@ -107,10 +111,10 @@ export default {
           }
         },
         legend: {
-          data: ['expected', 'actual']
+          data: ['生产', '生活']
         },
         series: [{
-          name: 'expected', itemStyle: {
+          name: '生产', itemStyle: {
             normal: {
               color: '#FF005A',
               lineStyle: {
@@ -119,14 +123,14 @@ export default {
               }
             }
           },
-          smooth: true,
+          // smooth: true,
           type: 'line',
-          data: expectedData,
-          animationDuration: 2800,
-          animationEasing: 'cubicInOut'
+          data: expectedData
+          // animationDuration: 2800,
+          // animationEasing: 'cubicInOut'
         },
         {
-          name: 'actual',
+          name: '生活',
           smooth: true,
           type: 'line',
           itemStyle: {
@@ -144,7 +148,8 @@ export default {
           data: actualData,
           animationDuration: 2800,
           animationEasing: 'quadraticOut'
-        }]
+        }
+        ]
       })
     },
     initChart() {

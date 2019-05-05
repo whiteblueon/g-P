@@ -56,7 +56,7 @@ export default {
         legend: {
           left: 'center',
           bottom: '10',
-          data: ['Industries', 'Technology', 'Forex', 'Gold', 'Forecasts']
+          data: ['生产水费', '生活水费', '生产电费', '生活电费', '生产用沼气费用', '生活用沼气费用']
         },
         calculable: true,
         series: [
@@ -67,11 +67,12 @@ export default {
             radius: [15, 95],
             center: ['50%', '38%'],
             data: [
-              { value: 320, name: 'Industries' },
-              { value: 240, name: 'Technology' },
-              { value: 149, name: 'Forex' },
-              { value: 100, name: 'Gold' },
-              { value: 59, name: 'Forecasts' }
+              { value: 320, name: '生产水费' },
+              { value: 240, name: '生活水费' },
+              { value: 149, name: '生产电费' },
+              { value: 100, name: '生活电费' },
+              { value: 59, name: '生产用沼气费用' },
+              { value: 120, name: '生活用沼气费用' }
             ],
             animationEasing: 'cubicInOut',
             animationDuration: 2600

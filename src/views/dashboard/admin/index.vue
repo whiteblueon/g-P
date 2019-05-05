@@ -1,7 +1,5 @@
 <template>
   <div class="dashboard-editor-container">
-    <github-corner class="github-corner" />
-
     <panel-group @handleSetLineChartData="handleSetLineChartData" />
 
     <el-row style="background:#fff;padding:16px 16px 0;margin-bottom:32px;">
@@ -9,88 +7,87 @@
     </el-row>
 
     <el-row :gutter="32">
-      <el-col :xs="24" :sm="24" :lg="8">
-        <div class="chart-wrapper">
-          <raddar-chart />
-        </div>
-      </el-col>
-      <el-col :xs="24" :sm="24" :lg="8">
+      <el-col :xs="36" :sm="36" :lg="12">
         <div class="chart-wrapper">
           <pie-chart />
         </div>
       </el-col>
-      <el-col :xs="24" :sm="24" :lg="8">
+      <el-col :xs="36" :sm="36" :lg="12">
         <div class="chart-wrapper">
           <bar-chart />
         </div>
-      </el-col>
-    </el-row>
-
-    <el-row :gutter="8">
-      <el-col :xs="{span: 24}" :sm="{span: 24}" :md="{span: 24}" :lg="{span: 12}" :xl="{span: 12}" style="padding-right:8px;margin-bottom:30px;">
-        <transaction-table />
-      </el-col>
-      <el-col :xs="{span: 24}" :sm="{span: 12}" :md="{span: 12}" :lg="{span: 6}" :xl="{span: 6}" style="margin-bottom:30px;">
-        <todo-list />
-      </el-col>
-      <el-col :xs="{span: 24}" :sm="{span: 12}" :md="{span: 12}" :lg="{span: 6}" :xl="{span: 6}" style="margin-bottom:30px;">
-        <box-card />
       </el-col>
     </el-row>
   </div>
 </template>
 
 <script>
-import GithubCorner from '@/components/GithubCorner'
 import PanelGroup from './components/PanelGroup'
 import LineChart from './components/LineChart'
-import RaddarChart from './components/RaddarChart'
 import PieChart from './components/PieChart'
 import BarChart from './components/BarChart'
-import TransactionTable from './components/TransactionTable'
-import TodoList from './components/TodoList'
-import BoxCard from './components/BoxCard'
-
-const lineChartData = {
-  newVisitis: {
-    expectedData: [100, 120, 161, 134, 105, 160, 165],
-    actualData: [120, 82, 91, 154, 162, 140, 145]
-  },
-  messages: {
-    expectedData: [200, 192, 120, 144, 160, 130, 140],
-    actualData: [180, 160, 151, 106, 145, 150, 130]
-  },
-  purchases: {
-    expectedData: [80, 100, 121, 104, 105, 90, 100],
-    actualData: [120, 90, 100, 138, 142, 130, 130]
-  },
-  shoppings: {
-    expectedData: [130, 140, 141, 142, 145, 150, 160],
-    actualData: [120, 82, 91, 154, 162, 140, 130]
-  }
-}
 
 export default {
   name: 'DashboardAdmin',
   components: {
-    GithubCorner,
     PanelGroup,
     LineChart,
-    RaddarChart,
     PieChart,
-    BarChart,
-    TransactionTable,
-    TodoList,
-    BoxCard
+    BarChart
   },
   data() {
     return {
-      lineChartData: lineChartData.newVisitis
+      allLineChartData: {
+        newVisitis: {
+          expectedData: [],
+          actualData: []
+        },
+        messages: {
+          expectedData: [],
+          actualData: []
+        },
+        purchases: {
+          expectedData: [],
+          actualData: []
+        }
+      },
+      lineChartData: {}
     }
+  },
+  mounted() {
+    for (let index = 0; index < 60; index++) {
+      this.allLineChartData.newVisitis.expectedData.push(69 + Math.floor(Math.random() * 23))
+      this.allLineChartData.newVisitis.actualData.push(3 + Math.floor(Math.random() * 3))
+      this.allLineChartData.messages.expectedData.push(69 + Math.floor(Math.random() * 23))
+      this.allLineChartData.messages.actualData.push(3 + Math.floor(Math.random() * 3))
+      this.allLineChartData.purchases.expectedData.push(69 + Math.floor(Math.random() * 23))
+      this.allLineChartData.purchases.actualData.push(3 + Math.floor(Math.random() * 3))
+    }
+    this.lineChartData = this.allLineChartData.newVisitis
+    const now = new Date()
+    this.$notify.error({
+      title: '生产用水速率超过预计峰值',
+      message: `发生时间: 今天${Math.floor(Math.random() * now.getHours() + 1)}小时${Math.floor(Math.random() * now.getMinutes() + 1)}分钟`,
+      duration: 0
+    })
+    setInterval(() => {
+      this.allLineChartData.newVisitis.expectedData.shift()
+      this.allLineChartData.newVisitis.actualData.shift()
+      this.allLineChartData.messages.expectedData.shift()
+      this.allLineChartData.messages.actualData.shift()
+      this.allLineChartData.purchases.expectedData.shift()
+      this.allLineChartData.purchases.actualData.shift()
+      this.allLineChartData.newVisitis.expectedData.push(69 + Math.floor(Math.random() * 23))
+      this.allLineChartData.newVisitis.actualData.push(3 + Math.floor(Math.random() * 3))
+      this.allLineChartData.messages.expectedData.push(69 + Math.floor(Math.random() * 23))
+      this.allLineChartData.messages.actualData.push(3 + Math.floor(Math.random() * 3))
+      this.allLineChartData.purchases.expectedData.push(69 + Math.floor(Math.random() * 23))
+      this.allLineChartData.purchases.actualData.push(3 + Math.floor(Math.random() * 3))
+    }, 3000)
   },
   methods: {
     handleSetLineChartData(type) {
-      this.lineChartData = lineChartData[type]
+      this.lineChartData = this.allLineChartData[type]
     }
   }
 }
