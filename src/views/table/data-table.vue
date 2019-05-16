@@ -1,7 +1,6 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <!-- <el-date-picker v-model="datePicker" class="filter-item" type="date" placeholder="选择日期" /> -->
       <el-input v-model="text" style="width: 240px" class="filter-item" />
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
         搜索
@@ -9,9 +8,6 @@
       <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="handleCreate">
         添加
       </el-button>
-      <!-- <el-button v-waves :loading="downloadLoading" class="filter-item" type="primary" icon="el-icon-download" @click="handleDownload">
-        {{ $t('table.export') }}
-      </el-button> -->
     </div>
 
     <el-table
@@ -24,14 +20,9 @@
       style="width: 100%;"
       @sort-change="sortChange"
     >
-      <!-- <el-table-column label="编号" prop="id" sortable="custom" align="center" width="80">
+      <el-table-column label="时间" width="150px" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.id }}</span>
-        </template>
-      </el-table-column> -->
-      <el-table-column label="日期" width="150px" align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.row.date }}</span>
+          <span>{{ scope.row.time }}</span>
         </template>
       </el-table-column>
       <el-table-column label="数据种类" align="center">
@@ -39,65 +30,22 @@
           <span>{{ scope.row.type }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="实际数据" align="center">
+      <el-table-column label="实际数据1" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.count }}</span>
+          <span>{{ scope.row.first }}</span>
         </template>
       </el-table-column>
-      <!-- <el-table-column label="时间" width="150px" align="center">
+      <el-table-column label="实际数据2" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.timestamp | parseTime('{y}-{m}-{d}') }}</span>
+          <span>{{ scope.row.second }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="生活用水量(吨/天)" align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.row.domesticWater }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="生产用水量(吨/天)" align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.row.productionWater }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="总用水费用(元)" align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.row.waterFee }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="生活用电量(千瓦时)" align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.row.domesticElectric }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="生产用电量(千瓦时)" align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.row.productElectric }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="总用电费用(元)" align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.row.electricFee }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="生活用气量(立方米/天)" align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.row.domesticBiogas }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="生产用气量(立方米/天)" align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.row.productionBiogas }}</span>
-        </template>
-      </el-table-column> -->
     </el-table>
 
     <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="getList" />
 
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
       <el-form ref="dataForm" :rules="rules" :model="temp" label-position="left" label-width="100px" style="width: 400px; margin-left:50px;">
-        <!-- <el-form-item :label="$t('table.date')" prop="timestamp">
-          <el-date-picker v-model="temp.timestamp" type="datetime" placeholder="请选择时间" />
-        </el-form-item> -->
         <el-form-item label="时间" prop="title">
           <el-input v-model="temp.date" />
         </el-form-item>
@@ -107,21 +55,6 @@
         <el-form-item label="数量/大小" prop="title">
           <el-input v-model="temp.count" />
         </el-form-item>
-        <!-- <el-form-item label="生活用电量" prop="title">
-          <el-input v-model="temp.domesticElectric" />
-        </el-form-item>
-        <el-form-item label="生产用电量" prop="title">
-          <el-input v-model="temp.productElectric" />
-        </el-form-item>
-        <el-form-item label="日总电费" prop="title">
-          <el-input v-model="temp.electricFee" />
-        </el-form-item>
-        <el-form-item label="生活用气量" prop="title">
-          <el-input v-model="temp.domesticBiogas" />
-        </el-form-item>
-        <el-form-item label="生产用气量" prop="title">
-          <el-input v-model="temp.productionBiogas" />
-        </el-form-item> -->
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">
@@ -149,38 +82,13 @@
 import { fetchDataList, fetchPv, createArticle, updateArticle } from '@/api/article'
 import waves from '@/directive/waves' // waves directive
 import { parseTime } from '@/utils'
+import axios from 'axios'
 import Pagination from '@/components/Pagination' // secondary package based on el-pagination
-
-const calendarTypeOptions = [
-  { key: 'CN', display_name: 'China' },
-  { key: 'US', display_name: 'USA' },
-  { key: 'JP', display_name: 'Japan' },
-  { key: 'EU', display_name: 'Eurozone' }
-]
-
-// arr to obj, such as { CN : "China", US : "USA" }
-const calendarTypeKeyValue = calendarTypeOptions.reduce((acc, cur) => {
-  acc[cur.key] = cur.display_name
-  return acc
-}, {})
 
 export default {
   name: 'ComplexTable',
   components: { Pagination },
   directives: { waves },
-  filters: {
-    statusFilter(status) {
-      const statusMap = {
-        published: 'success',
-        draft: 'info',
-        deleted: 'danger'
-      }
-      return statusMap[status]
-    },
-    typeFilter(type) {
-      return calendarTypeKeyValue[type]
-    }
-  },
   data() {
     return {
       text: null,
@@ -198,7 +106,6 @@ export default {
       },
       datePicker: '',
       importanceOptions: [1, 2, 3],
-      calendarTypeOptions,
       sortOptions: [{ label: 'ID Ascending', key: '+id' }, { label: 'ID Descending', key: '-id' }],
       statusOptions: ['published', 'draft', 'deleted'],
       showReviewer: false,
@@ -206,15 +113,6 @@ export default {
         date: null,
         type: null,
         count: null
-        // timestamp: new Date(),
-        // domesticWater: null,
-        // productionWater: null,
-        // waterFee: null,
-        // domesticElectric: null,
-        // productElectric: null,
-        // electricFee: null,
-        // domesticBiogas: null,
-        // productionBiogas: null
       },
       dialogFormVisible: false,
       dialogStatus: '',
@@ -231,20 +129,11 @@ export default {
       downloadLoading: false
     }
   },
-  created() {
+  mounted() {
     // this.getList()
-    this.list = [
-      { 'date': '2014', 'type': '牛', 'count': 1180520 },
-      { 'date': '2013', 'type': '牛', 'count': 122980 },
-      { 'date': '2012', 'type': '牛', 'count': 1238890 },
-      { 'date': '2011', 'type': '牛', 'count': 1129000 },
-      { 'date': '2010', 'type': '牛', 'count': 923400 },
-      { 'date': '2014', 'type': '羊', 'count': 2834710 },
-      { 'date': '2013', 'type': '羊', 'count': 2753200 },
-      { 'date': '2012', 'type': '羊', 'count': 266796 },
-      { 'date': '2011', 'type': '羊', 'count': 2600620 },
-      { 'date': '2010', 'type': '羊', 'count': 1409840 }
-    ]
+    axios.get('http://127.0.0.1:7001/data').then(res => {
+      this.list = res.data
+    })
   },
   methods: {
     getList() {

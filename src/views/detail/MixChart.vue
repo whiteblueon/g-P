@@ -62,7 +62,7 @@ export default {
       this.chart.setOption({
         backgroundColor: '#344b58',
         title: {
-          text: 'statistics',
+          // text: 'statistics',
           x: '20',
           top: '20',
           textStyle: {
@@ -121,7 +121,7 @@ export default {
             axisLabel: {
               interval: 0
             },
-            data: chartData.map(({ date }) => date)
+            data: chartData.map(({ time }) => time)
           }
         ],
         yAxis: [
@@ -195,7 +195,7 @@ export default {
                 }
               }
             },
-            data: chartData.map(({ one }) => one)
+            data: chartData.map(({ first }) => first)
           },
           {
             name: this.titleList[2],
@@ -216,7 +216,7 @@ export default {
                 }
               }
             },
-            data: chartData.map(({ two }) => two)
+            data: chartData.map(({ second }) => second)
           }
         ]
       })
