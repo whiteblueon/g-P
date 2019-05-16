@@ -78,14 +78,10 @@ export default {
         this.__resizeHandler()
       }
     },
-    setOptions({ expectedData, actualData } = {}) {
-      const array = []
-      for (let index = 0; index < 60; index++) {
-        array.push(index)
-      }
+    setOptions({ expectedData } = { expectedData: [] }) {
       this.chart.setOption({
         xAxis: {
-          data: array,
+          data: expectedData.map(({ country }) => country),
           boundaryGap: false,
           axisTick: {
             show: false
@@ -111,10 +107,10 @@ export default {
           }
         },
         legend: {
-          data: ['生产', '生活']
+          data: ['分布面积']
         },
         series: [{
-          name: '生产', itemStyle: {
+          name: '分布面积', itemStyle: {
             normal: {
               color: '#FF005A',
               lineStyle: {
@@ -125,30 +121,30 @@ export default {
           },
           // smooth: true,
           type: 'line',
-          data: expectedData
+          data: expectedData.map(({ distribution }) => distribution)
           // animationDuration: 2800,
           // animationEasing: 'cubicInOut'
-        },
-        {
-          name: '生活',
-          smooth: true,
-          type: 'line',
-          itemStyle: {
-            normal: {
-              color: '#3888fa',
-              lineStyle: {
-                color: '#3888fa',
-                width: 2
-              },
-              areaStyle: {
-                color: '#f3f8ff'
-              }
-            }
-          },
-          data: actualData,
-          animationDuration: 2800,
-          animationEasing: 'quadraticOut'
         }
+        // {
+        //   name: '生活',
+        //   smooth: true,
+        //   type: 'line',
+        //   itemStyle: {
+        //     normal: {
+        //       color: '#3888fa',
+        //       lineStyle: {
+        //         color: '#3888fa',
+        //         width: 2
+        //       },
+        //       areaStyle: {
+        //         color: '#f3f8ff'
+        //       }
+        //     }
+        //   },
+        //   data: actualData,
+        //   animationDuration: 2800,
+        //   animationEasing: 'quadraticOut'
+        // }
         ]
       })
     },

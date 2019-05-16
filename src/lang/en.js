@@ -73,7 +73,7 @@ export default {
     size: 'Global Size'
   },
   login: {
-    title: 'Login Form',
+    title: 'Agroforestry Data Query Website',
     logIn: 'Login',
     username: 'Username',
     password: 'Password',

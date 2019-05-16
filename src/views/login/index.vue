@@ -48,7 +48,7 @@
         </el-form-item>
       </el-tooltip>
 
-      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">
+      <el-button :loading="loading" type="primary" style="width:20%;margin-bottom:30px;" class="logn-in-button" @click.native.prevent="handleLogin">
         {{ $t('login.logIn') }}
       </el-button>
     </el-form>
@@ -243,6 +243,7 @@ $light_gray:#eee;
   width: 100%;
   background-color: $bg;
   overflow: hidden;
+  background: url("../../assets/login_img/2.jpg") no-repeat;
 
   .login-form {
     position: relative;
@@ -315,5 +316,9 @@ $light_gray:#eee;
       display: none;
     }
   }
+}
+.logn-in-button{
+  margin-left: 50%;
+  transform: translateX(-50%);
 }
 </style>

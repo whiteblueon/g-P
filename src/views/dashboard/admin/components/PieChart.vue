@@ -20,11 +20,23 @@ export default {
     height: {
       type: String,
       default: '300px'
+    },
+    chartData: {
+      type: Object,
+      required: true
     }
   },
   data() {
     return {
       chart: null
+    }
+  },
+  watch: {
+    chartData: {
+      deep: true,
+      handler(val) {
+        this.setOptions(val)
+      }
     }
   },
   mounted() {
@@ -46,8 +58,10 @@ export default {
   },
   methods: {
     initChart() {
-      this.chart = echarts.init(this.$el, 'macarons')
-
+      this.chart = echarts.init(this.$el, 'pie')
+      this.setOptions(this.chartData)
+    },
+    setOptions({ expectedData } = {}) {
       this.chart.setOption({
         tooltip: {
           trigger: 'item',
@@ -56,7 +70,7 @@ export default {
         legend: {
           left: 'center',
           bottom: '10',
-          data: ['生产水费', '生活水费', '生产电费', '生活电费', '生产用沼气费用', '生活用沼气费用']
+          data: expectedData.map(({ country }) => country)
         },
         calculable: true,
         series: [
@@ -66,16 +80,9 @@ export default {
             roseType: 'radius',
             radius: [15, 95],
             center: ['50%', '38%'],
-            data: [
-              { value: 320, name: '生产水费' },
-              { value: 240, name: '生活水费' },
-              { value: 149, name: '生产电费' },
-              { value: 100, name: '生活电费' },
-              { value: 59, name: '生产用沼气费用' },
-              { value: 120, name: '生活用沼气费用' }
-            ],
+            data: expectedData.map(({ country, distribution }) => ({ value: distribution, name: country })),
             animationEasing: 'cubicInOut',
-            animationDuration: 2600
+            animationDuration: 1000
           }
         ]
       })

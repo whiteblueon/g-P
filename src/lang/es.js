@@ -73,7 +73,7 @@ export default {
     profile: 'Profile'
   },
   login: {
-    title: 'Formulario de acceso',
+    title: 'Datos agroforestales',
     logIn: 'Acceso',
     username: 'Usuario',
     password: 'Contraseña',

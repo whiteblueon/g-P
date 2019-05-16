@@ -1,16 +1,17 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-date-picker v-model="datePicker" class="filter-item" type="date" placeholder="选择日期" />
+      <!-- <el-date-picker v-model="datePicker" class="filter-item" type="date" placeholder="选择日期" /> -->
+      <el-input v-model="text" style="width: 240px" class="filter-item" />
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
-        {{ $t('table.search') }}
+        搜索
       </el-button>
       <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="handleCreate">
-        {{ $t('table.add') }}
+        添加
       </el-button>
-      <el-button v-waves :loading="downloadLoading" class="filter-item" type="primary" icon="el-icon-download" @click="handleDownload">
+      <!-- <el-button v-waves :loading="downloadLoading" class="filter-item" type="primary" icon="el-icon-download" @click="handleDownload">
         {{ $t('table.export') }}
-      </el-button>
+      </el-button> -->
     </div>
 
     <el-table
@@ -23,12 +24,27 @@
       style="width: 100%;"
       @sort-change="sortChange"
     >
-      <el-table-column label="编号" prop="id" sortable="custom" align="center" width="80">
+      <!-- <el-table-column label="编号" prop="id" sortable="custom" align="center" width="80">
         <template slot-scope="scope">
           <span>{{ scope.row.id }}</span>
         </template>
+      </el-table-column> -->
+      <el-table-column label="日期" width="150px" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.date }}</span>
+        </template>
       </el-table-column>
-      <el-table-column label="时间" width="150px" align="center">
+      <el-table-column label="数据种类" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.type }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="实际数据" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.count }}</span>
+        </template>
+      </el-table-column>
+      <!-- <el-table-column label="时间" width="150px" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.timestamp | parseTime('{y}-{m}-{d}') }}</span>
         </template>
@@ -72,26 +88,26 @@
         <template slot-scope="scope">
           <span>{{ scope.row.productionBiogas }}</span>
         </template>
-      </el-table-column>
+      </el-table-column> -->
     </el-table>
 
     <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="getList" />
 
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
       <el-form ref="dataForm" :rules="rules" :model="temp" label-position="left" label-width="100px" style="width: 400px; margin-left:50px;">
-        <el-form-item :label="$t('table.date')" prop="timestamp">
+        <!-- <el-form-item :label="$t('table.date')" prop="timestamp">
           <el-date-picker v-model="temp.timestamp" type="datetime" placeholder="请选择时间" />
+        </el-form-item> -->
+        <el-form-item label="时间" prop="title">
+          <el-input v-model="temp.date" />
         </el-form-item>
-        <el-form-item label="生活用水量" prop="title">
-          <el-input v-model="temp.domesticWater" />
+        <el-form-item label="数据名称" prop="title">
+          <el-input v-model="temp.type" />
         </el-form-item>
-        <el-form-item label="生产用水量" prop="title">
-          <el-input v-model="temp.productionWater" />
+        <el-form-item label="数量/大小" prop="title">
+          <el-input v-model="temp.count" />
         </el-form-item>
-        <el-form-item label="日总水费" prop="title">
-          <el-input v-model="temp.waterFee" />
-        </el-form-item>
-        <el-form-item label="生活用电量" prop="title">
+        <!-- <el-form-item label="生活用电量" prop="title">
           <el-input v-model="temp.domesticElectric" />
         </el-form-item>
         <el-form-item label="生产用电量" prop="title">
@@ -105,7 +121,7 @@
         </el-form-item>
         <el-form-item label="生产用气量" prop="title">
           <el-input v-model="temp.productionBiogas" />
-        </el-form-item>
+        </el-form-item> -->
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">
@@ -167,10 +183,11 @@ export default {
   },
   data() {
     return {
+      text: null,
       tableKey: 0,
       list: null,
       total: 0,
-      listLoading: true,
+      listLoading: false,
       listQuery: {
         page: 1,
         limit: 20,
@@ -186,15 +203,18 @@ export default {
       statusOptions: ['published', 'draft', 'deleted'],
       showReviewer: false,
       temp: {
-        timestamp: new Date(),
-        domesticWater: null,
-        productionWater: null,
-        waterFee: null,
-        domesticElectric: null,
-        productElectric: null,
-        electricFee: null,
-        domesticBiogas: null,
-        productionBiogas: null
+        date: null,
+        type: null,
+        count: null
+        // timestamp: new Date(),
+        // domesticWater: null,
+        // productionWater: null,
+        // waterFee: null,
+        // domesticElectric: null,
+        // productElectric: null,
+        // electricFee: null,
+        // domesticBiogas: null,
+        // productionBiogas: null
       },
       dialogFormVisible: false,
       dialogStatus: '',
@@ -212,7 +232,19 @@ export default {
     }
   },
   created() {
-    this.getList()
+    // this.getList()
+    this.list = [
+      { 'date': '2014', 'type': '牛', 'count': 1180520 },
+      { 'date': '2013', 'type': '牛', 'count': 122980 },
+      { 'date': '2012', 'type': '牛', 'count': 1238890 },
+      { 'date': '2011', 'type': '牛', 'count': 1129000 },
+      { 'date': '2010', 'type': '牛', 'count': 923400 },
+      { 'date': '2014', 'type': '羊', 'count': 2834710 },
+      { 'date': '2013', 'type': '羊', 'count': 2753200 },
+      { 'date': '2012', 'type': '羊', 'count': 266796 },
+      { 'date': '2011', 'type': '羊', 'count': 2600620 },
+      { 'date': '2010', 'type': '羊', 'count': 1409840 }
+    ]
   },
   methods: {
     getList() {

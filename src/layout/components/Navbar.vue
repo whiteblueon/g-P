@@ -14,25 +14,25 @@
           <size-select id="size-select" class="right-menu-item hover-effect" />
         </el-tooltip>
 
-        <lang-select class="right-menu-item hover-effect" />
+        <!-- <lang-select class="right-menu-item hover-effect" /> -->
 
       </template>
 
       <el-dropdown class="avatar-container right-menu-item hover-effect" trigger="click">
         <div class="avatar-wrapper">
-          <img :src="avatar+'?imageView2/1/w/80/h/80'" class="user-avatar">
-          <i class="el-icon-caret-bottom" />
+          <span style="display:block;" @click="logout">{{ $t('navbar.logOut') }}</span>
+          <!-- <i class="el-icon-caret-bottom" /> -->
         </div>
-        <el-dropdown-menu slot="dropdown">
-          <router-link to="/">
+        <!-- <el-dropdown-menu slot="dropdown"> -->
+        <!-- <router-link to="/">
             <el-dropdown-item>
               {{ $t('navbar.dashboard') }}
             </el-dropdown-item>
-          </router-link>
-          <el-dropdown-item divided>
-            <span style="display:block;" @click="logout">{{ $t('navbar.logOut') }}</span>
-          </el-dropdown-item>
-        </el-dropdown-menu>
+          </router-link> -->
+        <!-- <el-dropdown-item divided> -->
+
+        <!-- </el-dropdown-item> -->
+        <!-- </el-dropdown-menu> -->
       </el-dropdown>
     </div>
   </div>
@@ -44,7 +44,6 @@ import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
 import Screenfull from '@/components/Screenfull'
 import SizeSelect from '@/components/SizeSelect'
-import LangSelect from '@/components/LangSelect'
 import Search from '@/components/HeaderSearch'
 
 export default {
@@ -53,7 +52,6 @@ export default {
     Hamburger,
     Screenfull,
     SizeSelect,
-    LangSelect,
     Search
   },
   computed: {

@@ -7,18 +7,21 @@ const image_uri = 'https://wpimg.wallstcn.com/e4558086-631c-425c-9430-56ffb46e70
 
 for (let i = 0; i < count; i++) {
   List.push(Mock.mock({
-    id: '@increment',
-    timestamp: +Mock.Random.date('T'),
-    domesticWater: '@integer(3, 5)',
-    productionWater: '@integer(70, 90)',
-    waterFee: '@integer(307, 399)',
-    domesticElectric: '@integer(1, 3)',
-    productElectric: '@integer(15, 25)',
-    electricFee: '@integer(40, 50)',
-    domesticBiogas: '@integer(10, 20)',
-    productionBiogas: '@integer(150, 200)',
-    image_uri,
-    platforms: ['a-platform']
+    // id: '@increment',
+    // timestamp: +Mock.Random.date('T'),
+    // domesticWater: '@integer(3, 5)',
+    // productionWater: '@integer(70, 90)',
+    // waterFee: '@integer(307, 399)',
+    // domesticElectric: '@integer(1, 3)',
+    // productElectric: '@integer(15, 25)',
+    // electricFee: '@integer(40, 50)',
+    // domesticBiogas: '@integer(10, 20)',
+    // productionBiogas: '@integer(150, 200)',
+    // image_uri,
+    // platforms: ['a-platform']
+    date: +Mock.Random.date('T'),
+    type: '@title(5, 10)',
+    count: '@integer(150, 200)'
   }))
 }
 
