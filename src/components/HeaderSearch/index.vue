@@ -12,7 +12,7 @@
       class="header-search-select"
       @change="change"
     >
-      <el-option v-for="item in options" :key="item.path" :value="item" :label="item.title.join(' > ')" />
+      <el-option v-for="item in options" :key="item.path" :value="item" :label="item.title" />
     </el-select>
   </div>
 </template>
@@ -32,7 +32,21 @@ export default {
       options: [],
       searchPool: [],
       show: false,
-      fuse: undefined
+      fuse: undefined,
+      dataList: [
+        {
+          path: '/nested/M1/M1-1',
+          title: '233',
+        },
+        {
+          path: '',
+          title: '',
+        },
+        {
+          path: '',
+          title: '',
+        },
+      ]
     }
   },
   computed: {
@@ -140,7 +154,8 @@ export default {
     },
     querySearch(query) {
       if (query !== '') {
-        this.options = this.fuse.search(query)
+        // this.options = this.fuse.search(query)
+        this.options = this.dataList.filter(_ => _.title.includes(query))
       } else {
         this.options = []
       }
