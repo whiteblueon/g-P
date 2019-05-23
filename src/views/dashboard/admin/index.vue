@@ -1,8 +1,8 @@
 <template>
   <div class="dashboard-editor-container">
     <el-carousel :interval="4000" type="card" height="200px">
-      <el-carousel-item v-for="item in image" :key="item">
-        <img :src="item" alt="">
+      <el-carousel-item v-for="item in image" :key="item.id">
+        <img :src="item.src" alt="" @click.stop="jump(item)">
       </el-carousel-item>
     </el-carousel>
     <!-- <el-carousel :interval="5000" arrow="always">
@@ -54,9 +54,19 @@ export default {
   data() {
     return {
       image: [
-        'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1557254101688&di=86f68820cc16c6b14c8db903a90d118e&imgtype=0&src=http%3A%2F%2Fimg007.hc360.cn%2Fy1%2FM05%2FF4%2F96%2FwKhQc1SOA62EEL1BAAAAAIP19y0222.jpg',
-        'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1557254503578&di=f42683f65d82b77ae12d80628af95af7&imgtype=0&src=http%3A%2F%2Fimg001.hc360.cn%2Fy5%2FM03%2FA6%2F6A%2FwKhQUVXPwrGEMtrXAAAAAEwMMzQ080.jpg',
-        'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1557254683240&di=a47934b23fff3f7e5c642c6a987c348b&imgtype=0&src=http%3A%2F%2Fmeiti.fabumao.cn%2F1135863%2F2019021818545205.jpg'
+        {
+          id: '/nested/M2/M2-1',
+          src: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1557254101688&di=86f68820cc16c6b14c8db903a90d118e&imgtype=0&src=http%3A%2F%2Fimg007.hc360.cn%2Fy1%2FM05%2FF4%2F96%2FwKhQc1SOA62EEL1BAAAAAIP19y0222.jpg'
+        },
+        {
+          id: '/nested/M1/M1-2',
+          src: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1557254503578&di=f42683f65d82b77ae12d80628af95af7&imgtype=0&src=http%3A%2F%2Fimg001.hc360.cn%2Fy5%2FM03%2FA6%2F6A%2FwKhQUVXPwrGEMtrXAAAAAEwMMzQ080.jpg'
+        },
+        {
+          id: '/nested/M1/M1-1',
+          src: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1557254683240&di=a47934b23fff3f7e5c642c6a987c348b&imgtype=0&src=http%3A%2F%2Fmeiti.fabumao.cn%2F1135863%2F2019021818545205.jpg'
+        }
+
       ],
       allLineChartData: {
         newVisitis: {
@@ -234,6 +244,9 @@ export default {
   methods: {
     handleSetLineChartData(type) {
       this.chartData = this.allLineChartData[type]
+    },
+    jump(item) {
+      this.$router.push(item.id)
     }
   }
 }

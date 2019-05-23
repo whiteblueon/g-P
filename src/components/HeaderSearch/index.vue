@@ -36,16 +36,48 @@ export default {
       dataList: [
         {
           path: '/nested/M1/M1-1',
-          title: '233',
+          title: '出栏情况-牛'
         },
         {
-          path: '',
-          title: '',
+          path: '/nested/M1/M1-2',
+          title: '出栏情况-羊'
         },
         {
-          path: '',
-          title: '',
+          path: '/nested/M1/M1-3',
+          title: '半牧区基本情况'
         },
+        {
+          path: '/nested/M2/M2-1',
+          title: '茶'
+        },
+        {
+          path: '/nested/M2/M2-2',
+          title: '葡萄'
+        },
+        {
+          path: '/nested/M2/menu1-3',
+          title: '脐橙'
+        },
+        {
+          path: '/nested/M3/M3-1',
+          title: '原材料'
+        },
+        {
+          path: '/nested/M3/M3-2',
+          title: '价格'
+        },
+        {
+          path: '/nested/M4/M4-1',
+          title: '鸡'
+        },
+        {
+          path: '/nested/M4/M4-2',
+          title: '燕麦'
+        },
+        {
+          path: '/nested/M4/M4-3',
+          title: '小龙虾'
+        }
       ]
     }
   },
