@@ -36,16 +36,16 @@ export default {
       dataList: [
         {
           path: '/nested/M1/M1-1',
-          title: '233',
+          title: '233'
         },
         {
           path: '',
-          title: '',
+          title: ''
         },
         {
           path: '',
-          title: '',
-        },
+          title: ''
+        }
       ]
     }
   },
