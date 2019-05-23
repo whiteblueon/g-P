@@ -5,6 +5,14 @@
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
         搜索
       </el-button> -->
+      <el-select clearable @change="filterData" v-model="typeFilter" placeholder="请选择数据类型">
+        <el-option
+          v-for="item in typeList"
+          :key="item.id"
+          :label="item.text"
+          :value="item.id"
+        />
+      </el-select>
       <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="handleCreate">
         添加
       </el-button>
@@ -58,18 +66,18 @@
               v-for="item in typeList"
               :key="item.id"
               :label="item.text"
-              :value="item.id">
-            </el-option>
+              :value="item.id"
+            />
           </el-select>
         </el-form-item>
         <el-form-item label="时间" prop="time">
-          <el-input v-model="temp.time" placeholder="时间"/>
+          <el-input v-model="temp.time" placeholder="时间" />
         </el-form-item>
         <el-form-item label="数据1" prop="first">
-          <el-input v-model="temp.first" placeholder="数据1"/>
+          <el-input v-model="temp.first" placeholder="数据1" />
         </el-form-item>
         <el-form-item label="数据2" prop="second">
-          <el-input v-model="temp.second" placeholder="数据2"/>
+          <el-input v-model="temp.second" placeholder="数据2" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -97,6 +105,7 @@ export default {
   directives: { waves },
   data() {
     return {
+      typeFilter: '',
       text: null,
       tableKey: 0,
       list: null,
@@ -133,11 +142,11 @@ export default {
         timestamp: [{ type: 'date', required: true, message: '必填', trigger: 'change' }],
         first: [{ required: true, message: '必填', trigger: 'blur' }],
         second: [{ required: true, message: '必填', trigger: 'blur' }],
-        time: [{ required: true, message: '必填', trigger: 'blur' }],
+        time: [{ required: true, message: '必填', trigger: 'blur' }]
       },
       downloadLoading: false,
       typeList: [],
-      currentId: null,
+      currentId: null
     }
   },
   mounted() {
@@ -146,14 +155,22 @@ export default {
     this.getData()
   },
   methods: {
+    filterData() {
+      if (!this.typeFilter) {
+        this.list = this.all
+      } else {
+        this.list = this.all.filter(_ => _.type === this.typeFilter)
+      }
+    },
     getTypeList() {
       axios.get('http://127.0.0.1:7001/data/type').then(res => {
-        this.typeList = res.data;
+        this.typeList = res.data
       })
     },
     getData() {
       axios.get('http://127.0.0.1:7001/data').then(res => {
         this.list = res.data
+        this.all = res.data
       })
     },
     deleteItem(id) {
@@ -207,7 +224,7 @@ export default {
         time: null,
         type: null,
         first: null,
-        second: null,
+        second: null
       }
     },
     handleCreate() {
